@@ -1,11 +1,26 @@
 import { StyleSheet, ScrollView } from 'react-native';
-
+import React, { useRef } from 'react';
+import { useRoute } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
-import DreamForm from '@/components/DreamForm'
+import DreamForm, { Dream } from '@/components/DreamForm';
+
+type HomeRoute = RouteProp<RootTabParamList, 'Home'>;
 
 export default function TabOneScreen() {
+  const { params } = useRoute<HomeRoute>();        // <— params may be undefined
+  const formRef = useRef<{ fillForm: (d: Dream) => void }>(null);
+
+
+  React.useEffect(() => {
+    if (params?.dreamToEdit) {
+      formRef.current?.fillForm(params.dreamToEdit);
+      console.log(params.dreamToEdit);
+    }
+  }, [params?.dreamToEdit]);
+
   return (
       <ScrollView style={styles.scrollView}
                   contentContainerStyle={styles.contentContainer}>

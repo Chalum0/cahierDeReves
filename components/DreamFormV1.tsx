@@ -1,8 +1,4 @@
-import React, {
-    useState,
-    forwardRef,
-    useImperativeHandle,
-} from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, Modal, TouchableOpacity, Text } from 'react-native';
 import { TextInput, Button, Checkbox, IconButton, ToggleButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,79 +6,26 @@ import { Calendar } from 'react-native-calendars';
 
 const { width } = Dimensions.get('window');
 
-export type Dream = {
-    id: string;
-    title: string;
-    time: string;
-    type: string;
-    tonality: string;
-    intensity: number;
-    clarity: number;
-    sleepQuality: number;
-    description: string;
-    date: string;
-    location: string;
-    interpretation: string;
-    tags: string[];
-    characters: string[];
-    moodBefore: string;
-    moodAfter: string;
-    // lucid: boolean;
-};
-
-function DreamFormInner(_, ref) {
-  const [dreamTitle, setDreamTitle]       = useState('');
-  const [dreamTime, setDreamTime]         = useState('');
-  const [dreamType, setDreamType]         = useState('Normal');
-  const [dreamTonality, setDreamTonality] = useState('Neutre');
+export default function DreamForm() {
   const [dreamIntensity, setDreamIntensity] = useState(5);
-  const [dreamClarity, setDreamClarity]     = useState(5);
-  const [sleepQuality, setSleepQuality]     = useState(5);
-  const [dreamDescription, setDreamDescription] = useState('');
-  const [dreamDate, setDreamDate]             = useState('');
-  const [dreamLocation, setDreamLocation]     = useState('');
-  const [dreamInterpretation, setDreamInterpretation] = useState('');
-  const [tags, setTags] = useState([]);
-  const [characters, setCharacters] = useState([]);
+  const [sleepQuality, setSleepQuality] = useState(5);
+  const [dreamClarity, setDreamClarity] = useState(5);
+  const [dreamTitle, setDreamTitle] = useState('');
+  const [dreamTime, setDreamTime] = useState('');
+  const [dreamType, setDreamType] = useState('Normal');
+  const [dreamTonality, setDreamTonality] = useState('Neutre');
   const [moodBefore, setMoodBefore] = useState('');
   const [moodAfter, setMoodAfter] = useState('');
+  const [dreamLocation, setDreamLocation] = useState('');
+  const [dreamInterpretation, setDreamInterpretation] = useState('');
+
+  const [characterInput, setCharacterInput] = useState('');
+  const [characters, setCharacters] = useState([]);
 
   const [tagInput, setTagInput] = useState('');
-  const [characterInput, setCharacterInput] = useState('');
+  const [tags, setTags] = useState([]);
+  const [dreamDate, setDreamDate] = useState('');
   const [calendarVisible, setCalendarVisible] = useState(false);
-
-  useImperativeHandle(ref, () => ({
-    fillForm(dream: Dream) {
-      setDreamTitle(dream.title);
-      setDreamTime(dream.time);
-      setDreamType(dream.type);
-      setDreamDescription(dream.description);
-      setDreamTonality(dream.tonality);
-      setDreamIntensity(dream.intensity);
-      setDreamClarity(dream.clarity);
-      setSleepQuality(dream.sleepQuality);
-      setDreamDescription(dream.description);
-      setDreamDate(dream.date);
-      setDreamLocation(dream.location);
-      setDreamInterpretation(dream.interpretation);
-      setTags(dream.tags);
-      setCharacters(dream.characters);
-      setMoodBefore(dream.moodBefore);
-      setMoodAfter(dream.moodAfter);
-      // setIsLucid(dream.lucid);
-    },
-  }));
-
-  // const [dreamIntensity, setDreamIntensity] = useState(5);
-  // const [sleepQuality, setSleepQuality] = useState(5);
-  // const [dreamClarity, setDreamClarity] = useState(5);
-  // const [dreamTitle, setDreamTitle] = useState('');
-  // const [dreamTime, setDreamTime] = useState('');
-  // const [dreamType, setDreamType] = useState('Normal');
-  // const [dreamTonality, setDreamTonality] = useState('Neutre');
-  // const [dreamLocation, setDreamLocation] = useState('');
-  //
-  // const [dreamDate, setDreamDate] = useState('');
 
   const addTag = () => {
     const trimmedTag = tagInput.trim();
@@ -182,17 +125,6 @@ function DreamFormInner(_, ref) {
         label="Titre du Rêve"
         value={dreamTitle}
         onChangeText={setDreamTitle}
-        mode="outlined"
-        multiline
-        numberOfLines={6}
-        style={[styles.input]}
-      />
-
-      {/*Description input*/}
-      <TextInput
-        label="Description du Rêve"
-        value={dreamDescription}
-        onChangeText={setDreamDescription}
         mode="outlined"
         multiline
         numberOfLines={6}
@@ -508,5 +440,3 @@ const styles = StyleSheet.create({
   },
 
 });
-
-export default forwardRef(DreamFormInner);
